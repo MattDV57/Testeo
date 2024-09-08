@@ -19,7 +19,7 @@ on:
           java-version: '17'
       - name: Build Project
         run: mvn clean install -DskipTests
-      - name: name: Login to docker hub
+      - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build docker image
         run: docker build -t mattdv57/mattdv-testrepo .
