@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
  
-  jobs:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -26,19 +26,16 @@ on:
       - name: Publish image to docker hub
         run: docker push mattdv57/mattdv-testrepo:latest
 
-   deploy:
+  deploy:
     needs: build
     runs-on: self-hosted
     steps:
       - name: Delete old container
         run: sudo docker rm -f mattdv-testrepocontainer
- 
       - name: Remove old image
         run: sudo docker image prune -f
- 
       - name: Pull Image from docker hub
         run: sudo docker pull mattdv57/mattdv-testrepo:latest
-       
       - name: Run Docker Container
         env:
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
