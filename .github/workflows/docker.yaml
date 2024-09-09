@@ -20,7 +20,10 @@ jobs:
       - name: Build Project
         run: mvn clean install -DskipTests
       - name: Login to docker hub
-        run: docker login --username mattdv57 --password Metalcore578!         
+        uses: docker/login-action@v3
+        with:
+          username: mattdv57
+          password: Metalcore5718!     
       - name: Build docker image
         run: docker build -t mattdv57/mattdv-testrepo .
       - name: Publish image to docker hub
