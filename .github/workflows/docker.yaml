@@ -38,7 +38,10 @@ jobs:
       - name: Pull Image from docker hub
         run: sudo docker pull mattdv57/mattdv-testrepo:latest
       - name: Run Docker Container
+        env:
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-            sudo docker run -d -p 8080:8080 --name mattdv-testrepocontainer 
-
+            sudo docker run -d -p 8080:8080 --name mattdv-testrepocontainer  \
+            -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            joubina/smartmoveback
                           
