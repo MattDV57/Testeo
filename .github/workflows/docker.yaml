@@ -1,4 +1,4 @@
-name: CICD
+name: test
  
 on:
   push:
@@ -18,25 +18,5 @@ jobs:
       - name: Build Project
         run: mvn clean install -DskipTests
       - name: Login to docker hub
-        run: docker login --username ${{ secrets.DOCKER_USER }} --password ${{ secrets.DOCKER_PASSWORD }}    
-      - name: Build docker image
-        run: docker build -t mattdv57/mattdv-testrepo .
-      - name: Publish image to docker hub
-        run: docker push mattdv57/mattdv-testrepo:latest
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Remove old image
-        run: sudo docker image prune -f
-      - name: Pull Image from docker hub
-        run: sudo docker pull mattdv57/mattdv-testrepo:latest
-      - name: Run Docker Container
-        env:
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-            sudo docker run -d -p 8080:8080 --name mattdv-testrepocontainer  \
-            -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            joubina/smartmoveback
-                          
+        run: docker login --username ${{ secrets.DOCKER_USER }} --password ${{ secrets.DOCKER_PASSWORD }}
+        
