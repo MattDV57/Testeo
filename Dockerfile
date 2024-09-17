@@ -1,13 +1,17 @@
-FROM maven:3.9.5-eclipse-temurin-17
+FROM node:10-alpine
 
-ENV NVM_VERSION v0.39.7
-ENV NODE_VERSION v20.11.1
-ENV NVM_DIR "/root/.nvm"
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-RUN echo "source ${NVM_DIR}/nvm.sh && nvm install ${NODE_VERSION} && nvm use ${NODE_VERSION}" | bash
+WORKDIR /home/node/app
 
-# Add to path
-ENV NODE_PATH $NVM_DIR/$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+COPY package*.json ./
 
+USER node
+
+RUN npm install
+
+COPY --chown=node:node . .
+
+EXPOSE 8085
+
+CMD [ "node", "app.js" ]
