@@ -26,7 +26,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Pull Image from docker hub
-        run: sudo docker pull mattdv57/mattdv-testrepo:latest
+        run: docker pull mattdv57/mattdv-testrepo:latest
       - name: Delete Old docker container
         run: docker rm -f mattdv-testrepo-container || true
       - name: Run Docker Container
